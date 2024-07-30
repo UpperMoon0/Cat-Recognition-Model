@@ -6,7 +6,8 @@ import os
 from selenium.webdriver.common.by import By
 
 
-def download_images(keyword, n, path='data'):
+def download_images(keyword, n):
+    path = f"downloaded_images/{keyword}"
     # Set up the webdriver and navigate to Google Images
     driver = webdriver.Firefox()
     driver.get(f"https://www.google.com/search?q={keyword}&source=lnms&tbm=isch")
