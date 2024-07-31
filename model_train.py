@@ -1,40 +1,34 @@
-import tensorflow as tf
 from keras import Sequential, Input
 from keras.src.legacy.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 
 
 def train_model():
-    # Set your image dimensions
     img_width, img_height = 100, 100
+    num_classes = 3
 
-    # Define your model architecture
-    model = Sequential()
-    model.add(Input(shape=(img_width, img_height, 3)))
-    model.add(Conv2D(32, (3, 3), activation='relu'))
-    model.add(MaxPooling2D((2, 2)))
-    model.add(Conv2D(64, (3, 3), activation='relu'))
-    model.add(MaxPooling2D((2, 2)))
-    model.add(Flatten())
-    model.add(Dense(128, activation='relu'))
-    model.add(Dense(64, activation='relu'))
-    model.add(Dense(1, activation='sigmoid'))
+    model = Sequential([
+        Input(shape=(img_width, img_height, 3)),
+        Conv2D(32, (3, 3), activation='relu'),
+        MaxPooling2D((2, 2)),
+        Conv2D(64, (3, 3), activation='relu'),
+        MaxPooling2D((2, 2)),
+        Flatten(),
+        Dense(128, activation='relu'),
+        Dense(64, activation='relu'),
+        Dense(num_classes, activation='softmax')
+    ])
 
-    # Compile the model
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-    # Set up data generators
     train_data_dir = 'datasets/train'
     train_datagen = ImageDataGenerator(rescale=1.0 / 255)
     train_generator = train_datagen.flow_from_directory(
         train_data_dir,
         target_size=(img_width, img_height),
         batch_size=32,
-        class_mode='binary'
+        class_mode='categorical'
     )
 
-    # Train the model
-    model.fit(train_generator, epochs=30)
-
-    # Save the trained model
-    model.save('cat_recognition_model.keras')
+    model.fit(train_generator, epochs=50)
+    model.save('computer_vision_model.keras')

@@ -1,5 +1,5 @@
 /.idea
 /__pycache__
 /datasets
-cat_recognition_model.keras
 /downloaded_images
+*.keras
