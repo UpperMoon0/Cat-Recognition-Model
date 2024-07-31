@@ -1,5 +1,5 @@
 import tensorflow as tf
-from keras import Sequential
+from keras import Sequential, Input
 from keras.src.legacy.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 
@@ -10,10 +10,14 @@ def train_model():
 
     # Define your model architecture
     model = Sequential()
-    model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(img_width, img_height, 3)))
+    model.add(Input(shape=(img_width, img_height, 3)))
+    model.add(Conv2D(32, (3, 3), activation='relu'))
+    model.add(MaxPooling2D((2, 2)))
+    model.add(Conv2D(64, (3, 3), activation='relu'))
     model.add(MaxPooling2D((2, 2)))
     model.add(Flatten())
     model.add(Dense(128, activation='relu'))
+    model.add(Dense(64, activation='relu'))
     model.add(Dense(1, activation='sigmoid'))
 
     # Compile the model
@@ -30,7 +34,7 @@ def train_model():
     )
 
     # Train the model
-    model.fit(train_generator, epochs=10)
+    model.fit(train_generator, epochs=30)
 
     # Save the trained model
     model.save('cat_recognition_model.keras')

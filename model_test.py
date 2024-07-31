@@ -25,6 +25,6 @@ def test_model():
             if prediction[0][0] >= 0.5:
                 result = "cat"
             else:
-                result = "dog"
+                result = "car"
 
             print(f"Image: {image_file} | Prediction: {result}")

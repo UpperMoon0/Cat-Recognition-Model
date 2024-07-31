@@ -1,3 +1,4 @@
-from data_manager import rename
+from data_manager import image_resize, rename
 
-rename("dog", "datasets/test/dog")
+# image_resize(100, 'downloaded_images/Car')
+rename('car', 'datasets/train/car')
