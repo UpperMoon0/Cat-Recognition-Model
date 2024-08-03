@@ -20,7 +20,14 @@ model = Sequential([
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 train_data_dir = 'datasets/train'
-train_datagen = ImageDataGenerator(rescale=1.0 / 255)
+
+train_datagen = ImageDataGenerator(
+    rescale=1.0 / 255,
+    horizontal_flip=True,
+    zoom_range=0.2,
+    rotation_range=10
+)
+
 train_generator = train_datagen.flow_from_directory(
     train_data_dir,
     target_size=(img_width, img_height),
@@ -28,5 +35,5 @@ train_generator = train_datagen.flow_from_directory(
     class_mode='categorical'
 )
 
-model.fit(train_generator, epochs=20)
+model.fit(train_generator, epochs=50)
 model.save('computer_vision_model.keras')

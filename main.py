@@ -1,4 +1,4 @@
-from data_manager import image_resize, rename
+from data_manager import image_resize, rename, add_data
 
 # image_resize(100, 'downloaded_images/Food')
-rename('food', 'datasets/train/food')
+add_data('car', 'downloaded_images/Car')

@@ -1,5 +1,7 @@
 from PIL import Image
 import os
+import shutil
+from math import ceil
 
 
 def rename(name, path):
@@ -29,3 +31,36 @@ def image_resize(size, path):
                 # Delete the original image if it's not a PNG
                 if not filename.endswith(".png"):
                     os.remove(img_path)
+
+
+def add_data(name, src_path):
+    # Call image_resize function
+    image_resize(100, src_path)
+
+    # Get list of all files in src_path
+    files = os.listdir(src_path)
+
+    # Calculate the number of files to move for training (80%)
+    num_train_files = ceil(len(files) * 0.8)
+
+    # Create directories if they don't exist
+    train_dir = f'datasets/train/{name}'
+    test_dir = f'datasets/test/{name}'
+    os.makedirs(train_dir, exist_ok=True)
+    os.makedirs(test_dir, exist_ok=True)
+
+    # Clear existing files in train_dir and test_dir
+    for filename in os.listdir(train_dir):
+        os.remove(os.path.join(train_dir, filename))
+    for filename in os.listdir(test_dir):
+        os.remove(os.path.join(test_dir, filename))
+
+    # Move files to train directory and rename them
+    for i in range(num_train_files):
+        shutil.move(f'{src_path}/{files[i]}', f'{train_dir}/{files[i]}')
+    rename(name, train_dir)
+
+    # Move remaining files to test directory and rename them
+    for i in range(num_train_files, len(files)):
+        shutil.move(f'{src_path}/{files[i]}', f'{test_dir}/{files[i]}')
+    rename(name, test_dir)
