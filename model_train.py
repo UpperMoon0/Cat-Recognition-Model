@@ -9,11 +9,8 @@ model = Sequential([
     Input(shape=(img_width, img_height, 3)),
     Conv2D(32, (3, 3), activation='relu'),
     MaxPooling2D((2, 2)),
-    Conv2D(64, (3, 3), activation='relu'),
-    MaxPooling2D((2, 2)),
     Flatten(),
     Dense(128, activation='relu'),
-    Dense(64, activation='relu'),
     Dense(num_classes, activation='softmax')
 ])
 
