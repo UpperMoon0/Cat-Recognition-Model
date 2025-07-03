@@ -1,5 +1,1 @@
-/.idea
-/__pycache__
-/datasets
-/downloaded_images
-*.keras
+.env

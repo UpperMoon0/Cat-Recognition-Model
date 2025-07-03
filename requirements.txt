@@ -1,3 +1,7 @@
 Pillow
 pytesseract
 keyboard
+google-generativeai
+python-dotenv
+Pillow
+pytesseract
